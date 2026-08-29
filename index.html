@@ -143,13 +143,13 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="text-right">
+                    <div class="flex justify-between items-center pt-2">
                         <button onclick="calculateTotals()" class="bg-slate-600 hover:bg-slate-700 text-white font-bold px-4 py-1.5 rounded text-xs">Auto-Calculate Totals</button>
                     </div>
                 </div>
 
-                <!-- Submit Comparison Button -->
-                <div class="text-center pt-2">
+                <!-- Submit Comparison Button (Clearly Visible Now) -->
+                <div class="text-center pt-4 pb-4">
                     <button onclick="generateComparisonReport()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                         Generate Progress Comparison Report PDF
                     </button>
@@ -336,9 +336,14 @@
             document.getElementById('childName').value = "";
             document.getElementById('childDob').value = "";
             document.getElementById('childSetting').value = "";
+            document.getElementById('compName').value = "";
+            document.getElementById('compDob').value = "";
+            document.getElementById('compSetting').value = "";
+            document.querySelectorAll('#comparisonSection input[type="number"]').forEach(input => input.value = "0");
+            
             questions.forEach((q, index) => {
                 const radios = document.getElementsByName(`q${index}`);
-                if (radios.length > 0) radios[0].checked = true; // reset to "Not (0)"
+                if (radios.length > 0) radios[0].checked = true;
             });
         }
 
@@ -354,14 +359,9 @@
             const appContainer = document.getElementById('appContainer');
             const printArea = document.getElementById('printArea');
 
-            // Make sure the form is visible and result area is hidden
             appContainer.style.display = 'block';
             printArea.classList.add('hidden');
 
-            // Clear form fields whenever switching to a questionnaire tab for a fresh start
-            clearFormFields();
-
-            // Reset button styles
             btnBase.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
             btnFollow.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
             btnComp.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
