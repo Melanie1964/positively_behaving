@@ -9,16 +9,19 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
 
+    <!-- Top Navigation Menu -->
     <div class="max-w-4xl mx-auto mb-4 flex flex-wrap justify-between items-center bg-white p-3 rounded shadow-sm gap-2">
         <div class="space-x-1 text-xs font-bold">
             <button onclick="switchTab('baseline')" id="btnBaseline" class="px-3 py-2 rounded bg-[#112233] text-white transition">Baseline SDQ</button>
-            <button onclick="switchTab('followup')" id="btnFollowup" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">1-Month Follow-Up</button>
+            <button onclick="switchTab('followup')" id="btnFollowup" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">1-Month Follow-Up SDQ</button>
             <button onclick="switchTab('comparison')" id="btnComparison" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">Progress Comparison Report</button>
         </div>
         <span class="text-xs text-slate-500 font-medium">Positively Behaving Hub</span>
     </div>
 
+    <!-- MAIN APP CONTAINER -->
     <div id="appContainer" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+        <!-- Header Banner -->
         <div class="bg-[#112233] text-white p-6 border-b-4 border-[#c59b27] flex justify-between items-center">
             <div>
                 <h1 id="headerTitle" class="text-xl md:text-2xl font-bold tracking-wide uppercase">Baseline Assessment</h1>
@@ -31,9 +34,12 @@
             </div>
         </div>
 
+        <!-- Form Container -->
         <div class="p-6 md:p-8 space-y-6">
             
+            <!-- SECTION A: QUESTIONNAIRE VIEW (Baseline & Follow-up share this structure) -->
             <div id="questionnaireSection" class="space-y-6">
+                <!-- Child Details Box -->
                 <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-3">
                     <h2 class="text-sm font-bold text-[#112233] uppercase">Child & Setting Details</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700">
@@ -52,22 +58,26 @@
                     </div>
                 </div>
 
+                <!-- Questionnaire Instructions -->
                 <div id="instructionText" class="text-xs italic text-slate-600 bg-slate-50 p-3 border border-slate-200 rounded">
                     Please answer on the basis of the child's behaviour over <strong>the last six months</strong>.
                 </div>
 
+                <!-- SDQ 25 Questions Container -->
                 <div class="space-y-3">
                     <h3 class="text-xs font-bold text-[#112233] uppercase bg-[#112233] text-white p-2 rounded">Part 1: Strengths & Difficulties Questionnaire (Ages 2–4)</h3>
                     <div id="sdqQuestions" class="space-y-2"></div>
                 </div>
 
+                <!-- Submit Button -->
                 <div class="text-center pt-4">
                     <button onclick="generateActionPlan()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
-                        Analyze Scores & Generate Action Plan / Review
+                        Analyze Scores & Generate Report
                     </button>
                 </div>
             </div>
 
+            <!-- SECTION B: COMPARISON TOOL VIEW -->
             <div id="comparisonSection" class="hidden space-y-6">
                 <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-2">
                     <h2 class="text-sm font-bold text-[#112233] uppercase">Progress Comparison Tool (Baseline vs. 1-Month Follow-Up)</h2>
@@ -89,6 +99,7 @@
                     </div>
                 </div>
 
+                <!-- Score Entry Table -->
                 <div class="border border-slate-300 rounded p-4 space-y-3">
                     <h3 class="font-bold text-[#112233] uppercase text-xs tracking-wide">Enter Subscale Totals</h3>
                     <table class="w-full text-left border-collapse text-xs">
@@ -137,6 +148,7 @@
                     </div>
                 </div>
 
+                <!-- Submit Comparison Button -->
                 <div class="text-center pt-2">
                     <button onclick="generateComparisonReport()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                         Generate Progress Comparison Report PDF
@@ -147,7 +159,9 @@
         </div>
     </div>
 
+    <!-- Printable Result Template (Hidden until generated) -->
     <div id="printArea" class="hidden max-w-4xl mx-auto bg-white p-6 rounded shadow text-xs space-y-4">
+        <!-- Header -->
         <div class="flex justify-between items-center border-b-2 border-[#112233] pb-3">
             <div>
                 <h2 id="printReportTitle" class="text-base font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
@@ -159,12 +173,14 @@
             </div>
         </div>
 
+        <!-- Pupil Profile Details -->
         <div class="bg-slate-50 p-2.5 rounded border border-slate-200 grid grid-cols-3 gap-4 font-medium text-slate-700">
             <div><strong>Child:</strong> <span id="resName"></span></div>
             <div><strong>Age / D.O.B:</strong> <span id="resDob"></span></div>
             <div><strong>Setting:</strong> <span id="resSetting"></span></div>
         </div>
 
+        <!-- SDQ Scores Summary Box -->
         <div id="standardReportBox" class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide" id="tableHeaderTitle">SDQ Subscale Analysis & Banding</h3>
             <table class="w-full text-left border-collapse">
@@ -186,6 +202,7 @@
             </table>
         </div>
 
+        <!-- Comparison Report Table (Hidden unless comparison mode) -->
         <div id="comparisonReportBox" class="hidden border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">Baseline vs. 1-Month Follow-Up Progress Matrix</h3>
             <table class="w-full text-left border-collapse">
@@ -198,10 +215,12 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200" id="comparisonTableBody">
-                    </tbody>
+                    <!-- Injected dynamically -->
+                </tbody>
             </table>
         </div>
 
+        <!-- Tailored Action Plan & Suggested Strategies Box -->
         <div id="strategyBoxContainer" class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide" id="strategyHeaderTitle">Part 2: Tailored Low-Confrontation Action Plan & Strategies</h3>
             <div class="bg-[#eaf1f6] p-3 rounded border-l-4 border-[#112233] space-y-1">
@@ -234,6 +253,7 @@
             </table>
         </div>
 
+        <!-- Private Monitoring Tally Log -->
         <div id="tallyLogContainer" class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 3: Behaviour Monitoring & Private Tally Log</h3>
             <table class="w-full text-center border-collapse border border-slate-300">
@@ -255,6 +275,7 @@
             </table>
         </div>
 
+        <!-- Download Action Button & Back Button -->
         <div class="text-center pt-2 space-x-3">
             <button onclick="downloadPDF()" class="bg-[#112233] text-white font-bold px-6 py-2 rounded shadow uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                 Download PDF Report
@@ -321,7 +342,7 @@
             const questionnaireSec = document.getElementById('questionnaireSection');
             const comparisonSec = document.getElementById('comparisonSection');
 
-            // Reset active button styles
+            // Reset button styles
             btnBase.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
             btnFollow.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
             btnComp.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
@@ -405,7 +426,12 @@
             document.getElementById('strategyAdvice').innerText = advice;
 
             // Configure views for standard report
-            document.getElementById('printReportTitle').innerText = currentMode === 'baseline' ? "Individual Behaviour Action Plan" : "1-Month Follow-Up Progress Review";
+            if (currentMode === 'baseline') {
+                document.getElementById('printReportTitle').innerText = "Individual Behaviour Action Plan (Baseline)";
+            } else {
+                document.getElementById('printReportTitle').innerText = "1-Month Follow-Up Progress Review";
+            }
+
             document.getElementById('standardReportBox').classList.remove('hidden');
             document.getElementById('comparisonReportBox').classList.add('hidden');
             document.getElementById('strategyBoxContainer').classList.remove('hidden');
@@ -445,7 +471,6 @@
                     else if (diff > 0) { outcomeText = `Increased difficulties (+${diff})`; badgeColor = "text-amber-700 font-bold"; }
                     else { outcomeText = "Stable (No change)"; badgeColor = "text-slate-600"; }
                 } else {
-                    // Prosocial: higher is better
                     if (diff > 0) { outcomeText = `Improved (Increased by +${diff})`; badgeColor = "text-green-700 font-bold"; }
                     else if (diff < 0) { outcomeText = `Decreased strength (${diff})`; badgeColor = "text-amber-700 font-bold"; }
                     else { outcomeText = "Stable (No change)"; badgeColor = "text-slate-600"; }
@@ -465,6 +490,7 @@
             document.getElementById('standardReportBox').classList.add('hidden');
             document.getElementById('comparisonReportBox').classList.remove('hidden');
             document.getElementById('strategyBoxContainer').classList.add('hidden');
+            document.assertEqual ? null : null; // filler
             document.getElementById('tallyLogContainer').classList.add('hidden');
 
             document.getElementById('appContainer').style.display = 'none';
@@ -476,7 +502,7 @@
             const element = document.getElementById('printArea');
             const opt = {
                 margin:       0.3,
-                filename:     currentMode === 'comparison' ? 'Positively_Behaving_Progress_Report.pdf' : 'Positively_Behaving_Report.pdf',
+                filename:     currentMode === 'comparison' ? 'Positively_Behaving_Progress_Report.pdf' : (currentMode === 'followup' ? 'Positively_Behaving_FollowUp_Review.pdf' : 'Positively_Behaving_Baseline_Plan.pdf'),
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
