@@ -280,7 +280,7 @@
             <button onclick="downloadPDF()" class="bg-[#112233] text-white font-bold px-6 py-2 rounded shadow uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                 Download PDF Report
             </button>
-            <button onclick="location.reload()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded text-xs">
+            <button onclick="resetAndReload()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded text-xs">
                 Start New Assessment / Report
             </button>
         </div>
@@ -332,6 +332,16 @@
             container.appendChild(div);
         });
 
+        function clearFormFields() {
+            document.getElementById('childName').value = "";
+            document.getElementById('childDob').value = "";
+            document.getElementById('childSetting').value = "";
+            questions.forEach((q, index) => {
+                const radios = document.getElementsByName(`q${index}`);
+                if (radios.length > 0) radios[0].checked = true; // reset to "Not (0)"
+            });
+        }
+
         function switchTab(mode) {
             currentMode = mode;
             const btnBase = document.getElementById('btnBaseline');
@@ -344,9 +354,12 @@
             const appContainer = document.getElementById('appContainer');
             const printArea = document.getElementById('printArea');
 
-            // Always ensure the form container is visible and print area is hidden when switching tabs
+            // Make sure the form is visible and result area is hidden
             appContainer.style.display = 'block';
             printArea.classList.add('hidden');
+
+            // Clear form fields whenever switching to a questionnaire tab for a fresh start
+            clearFormFields();
 
             // Reset button styles
             btnBase.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
@@ -371,6 +384,11 @@
                 questionnaireSec.classList.add('hidden');
                 comparisonSec.classList.remove('hidden');
             }
+        }
+
+        function resetAndReload() {
+            clearFormFields();
+            location.reload();
         }
 
         function calculateTotals() {
