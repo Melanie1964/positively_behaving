@@ -64,103 +64,103 @@
     </div>
 
     <!-- Printable Result Template (Hidden until generated) -->
-    <div id="printArea" class="hidden max-w-4xl mx-auto bg-white p-8 mt-8 rounded shadow text-xs space-y-6">
+    <div id="printArea" class="hidden max-w-4xl mx-auto bg-white p-6 rounded shadow text-xs space-y-5">
         <!-- Header -->
-        <div class="flex justify-between items-center border-b-2 border-[#112233] pb-4">
+        <div class="flex justify-between items-center border-b-2 border-[#112233] pb-3">
             <div>
-                <h2 class="text-lg font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
+                <h2 class="text-base font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
                 <p class="text-slate-600 font-semibold">Positively Behaving Framework • Course Strategy Output</p>
             </div>
-            <div class="text-right text-slate-600">
+            <div class="text-right text-slate-600 text-[10px]">
                 <strong>Melanie Horne</strong><br>
                 Positively_Behaving@outlook.com
             </div>
         </div>
 
         <!-- Pupil Profile Details -->
-        <div class="bg-slate-50 p-3 rounded border border-slate-200 grid grid-cols-3 gap-4 font-medium text-slate-700">
+        <div class="bg-slate-50 p-2.5 rounded border border-slate-200 grid grid-cols-3 gap-4 font-medium text-slate-700">
             <div><strong>Child:</strong> <span id="resName"></span></div>
             <div><strong>Age / D.O.B:</strong> <span id="resDob"></span></div>
             <div><strong>Setting:</strong> <span id="resSetting"></span></div>
         </div>
 
         <!-- SDQ Scores Summary Box -->
-        <div class="border border-slate-300 rounded p-4 space-y-2">
+        <div class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">SDQ Subscale Analysis & Banding</h3>
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
-                        <th class="p-2">Subscale</th>
-                        <th class="p-2">Score</th>
-                        <th class="p-2">Normative Banding (Ages 2-4)</th>
+                        <th class="p-1.5">Subscale</th>
+                        <th class="p-1.5">Score</th>
+                        <th class="p-1.5">Normative Banding (Ages 2-4)</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200">
-                    <tr><td class="p-2">Emotional Symptoms</td><td class="p-2" id="scoreEmotional">-</td><td class="p-2" id="bandEmotional">-</td></tr>
-                    <tr><td class="p-2">Conduct Problems</td><td class="p-2" id="scoreConduct">-</td><td class="p-2" id="bandConduct">-</td></tr>
-                    <tr><td class="p-2">Hyperactivity / Inattention</td><td class="p-2" id="scoreHyper">-</td><td class="p-2" id="bandHyper">-</td></tr>
-                    <tr><td class="p-2">Peer Problems</td><td class="p-2" id="scorePeer">-</td><td class="p-2" id="bandPeer">-</td></tr>
-                    <tr><td class="p-2">Prosocial Strength</td><td class="p-2" id="scoreProsocial">-</td><td class="p-2" id="bandProsocial">-</td></tr>
-                    <tr class="font-bold bg-slate-50"><td class="p-2">Total Difficulties Score</td><td class="p-2" id="scoreTotal">-</td><td class="p-2" id="bandTotal">-</td></tr>
+                    <tr><td class="p-1.5">Emotional Symptoms</td><td class="p-1.5" id="scoreEmotional">-</td><td class="p-1.5" id="bandEmotional">-</td></tr>
+                    <tr><td class="p-1.5">Conduct Problems</td><td class="p-1.5" id="scoreConduct">-</td><td class="p-1.5" id="bandConduct">-</td></tr>
+                    <tr><td class="p-1.5">Hyperactivity / Inattention</td><td class="p-1.5" id="scoreHyper">-</td><td class="p-1.5" id="bandHyper">-</td></tr>
+                    <tr><td class="p-1.5">Peer Problems</td><td class="p-1.5" id="scorePeer">-</td><td class="p-1.5" id="bandPeer">-</td></tr>
+                    <tr><td class="p-1.5">Prosocial Strength</td><td class="p-1.5" id="scoreProsocial">-</td><td class="p-1.5" id="bandProsocial">-</td></tr>
+                    <tr class="font-bold bg-slate-50"><td class="p-1.5">Total Difficulties Score</td><td class="p-1.5" id="scoreTotal">-</td><td class="p-1.5" id="bandTotal">-</td></tr>
                 </tbody>
             </table>
         </div>
 
         <!-- Tailored Action Plan Table -->
-        <div class="border border-slate-300 rounded p-4 space-y-3">
+        <div class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 2: Targeted Low-Confrontation Action Plan</h3>
             <p class="text-slate-600">Primary Focus Area Identified: <strong id="primaryFocus" class="text-[#112233]"></strong></p>
             <table class="w-full text-left border-collapse border border-slate-300">
                 <thead>
                     <tr class="bg-[#112233] text-white">
-                        <th class="p-2 border border-slate-300">Trigger / Antecedent</th>
-                        <th class="p-2 border border-slate-300">Low-Confrontation Strategy</th>
-                        <th class="p-2 border border-slate-300">Environmental / Transition Check</th>
-                        <th class="p-2 border border-slate-300">Success Criteria</th>
+                        <th class="p-1.5 border border-slate-300">Trigger / Antecedent</th>
+                        <th class="p-1.5 border border-slate-300">Low-Confrontation Strategy</th>
+                        <th class="p-1.5 border border-slate-300">Environmental / Transition Check</th>
+                        <th class="p-1.5 border border-slate-300">Success Criteria</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="p-2 border border-slate-300">Unstructured play transitions and group carpet times.</td>
-                        <td class="p-2 border border-slate-300">Pre-warning transition markers; assign specialized helper role.</td>
-                        <td class="p-2 border border-slate-300">Quiet corner station set up prior to group changes.</td>
-                        <td class="p-2 border border-slate-300">Calm independent transition within 30 seconds.</td>
+                        <td class="p-1.5 border border-slate-300">Unstructured play transitions and group carpet times.</td>
+                        <td class="p-1.5 border border-slate-300">Pre-warning transition markers; assign specialized helper role.</td>
+                        <td class="p-1.5 border border-slate-300">Quiet corner station set up prior to group changes.</td>
+                        <td class="p-1.5 border border-slate-300">Calm independent transition within 30 seconds.</td>
                     </tr>
                     <tr>
-                        <td class="p-2 border border-slate-300">Sharing resources or dealing with denied immediate requests.</td>
-                        <td class="p-2 border border-slate-300">Use visual timer blocks and scripted choices (first/then).</td>
-                        <td class="p-2 border border-slate-300">Ensure duplicate popular toys are available in zone.</td>
-                        <td class="p-2 border border-slate-300">Verbal acknowledgement of waiting turn without escalation.</td>
+                        <td class="p-1.5 border border-slate-300">Sharing resources or dealing with denied immediate requests.</td>
+                        <td class="p-1.5 border border-slate-300">Use visual timer blocks and scripted choices (first/then).</td>
+                        <td class="p-1.5 border border-slate-300">Ensure duplicate popular toys are available in zone.</td>
+                        <td class="p-1.5 border border-slate-300">Verbal acknowledgement of waiting turn without escalation.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <!-- Private Monitoring Tally Log -->
-        <div class="border border-slate-300 rounded p-4 space-y-3">
+        <div class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 3: Behaviour Monitoring & Private Tally Log</h3>
             <table class="w-full text-center border-collapse border border-slate-300">
                 <thead>
                     <tr class="bg-slate-200 text-slate-800">
-                        <th class="p-2 border border-slate-300 text-left">Session / Timeblock</th>
-                        <th class="p-2 border border-slate-300">Monday</th>
-                        <th class="p-2 border border-slate-300">Tuesday</th>
-                        <th class="p-2 border border-slate-300">Wednesday</th>
-                        <th class="p-2 border border-slate-300">Thursday</th>
-                        <th class="p-2 border border-slate-300">Friday</th>
+                        <th class="p-1.5 border border-slate-300 text-left">Session / Timeblock</th>
+                        <th class="p-1.5 border border-slate-300">Monday</th>
+                        <th class="p-1.5 border border-slate-300">Tuesday</th>
+                        <th class="p-1.5 border border-slate-300">Wednesday</th>
+                        <th class="p-1.5 border border-slate-300">Thursday</th>
+                        <th class="p-1.5 border border-slate-300">Friday</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td class="p-2 border border-slate-300 text-left font-medium">Morning Session</td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td></tr>
-                    <tr><td class="p-2 border border-slate-300 text-left font-medium">Lunchtime / Transition</td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td></tr>
-                    <tr><td class="p-2 border border-slate-300 text-left font-medium">Afternoon Session</td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td></tr>
+                    <tr><td class="p-1.5 border border-slate-300 text-left font-medium">Morning Session</td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td></tr>
+                    <tr><td class="p-1.5 border border-slate-300 text-left font-medium">Lunchtime / Transition</td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td></tr>
+                    <tr><td class="p-1.5 border border-slate-300 text-left font-medium">Afternoon Session</td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td></tr>
                 </tbody>
             </table>
         </div>
 
         <!-- Download Action Button -->
-        <div class="text-center pt-4">
-            <button onclick="downloadPDF()" class="bg-[#112233] text-white font-bold px-6 py-2.5 rounded shadow uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
+        <div class="text-center pt-2">
+            <button onclick="downloadPDF()" class="bg-[#112233] text-white font-bold px-6 py-2 rounded shadow uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                 Download Locked Action Plan PDF
             </button>
         </div>
@@ -248,7 +248,7 @@
             let maxVal = scores.conduct;
             if (scores.hyper > maxVal) { highestSub = "Hyperactivity / Inattention"; maxVal = scores.hyper; }
             if (scores.emotional > maxVal) { highestSub = "Emotional Symptoms"; maxVal = scores.emotional; }
-            if (scores.peer > maxVal) { highestSub = "Peer Problems"; maxVal = maxVal; }
+            if (scores.peer > maxVal) { highestSub = "Peer Problems"; maxVal = scores.peer; }
 
             document.getElementById('primaryFocus').innerText = highestSub;
 
@@ -261,7 +261,7 @@
         function downloadPDF() {
             const element = document.getElementById('printArea');
             const opt = {
-                margin:       0.5,
+                margin:       0.3,
                 filename:     'Positively_Behaving_Action_Plan.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
