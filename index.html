@@ -71,7 +71,7 @@
             <div id="comparisonSection" class="hidden space-y-6">
                 <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-2">
                     <h2 class="text-sm font-bold text-[#112233] uppercase">Progress Comparison Tool (Baseline vs. 1-Month Follow-Up)</h2>
-                    <p class="text-xs text-slate-600">Scores from your active session have been automatically captured below. Review or adjust values if needed before generating your progress report.</p>
+                    <p class="text-xs text-slate-600">Scores from your active session are loaded below automatically. Review or adjust values if needed before generating your progress report.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700 bg-slate-50 p-4 rounded border border-slate-200">
@@ -264,7 +264,6 @@
 
     <script>
         let currentMode = 'baseline';
-        // Temporary session storage objects
         let sessionData = {
             baseline: null,
             followup: null
@@ -313,17 +312,6 @@
             container.appendChild(div);
         });
 
-        function clearFormFields() {
-            document.getElementById('childName').value = "";
-            document.getElementById('childDob').value = "";
-            document.getElementById('childSetting').value = "";
-            
-            questions.forEach((q, index) => {
-                const radios = document.getElementsByName(`q${index}`);
-                if (radios.length > 0) radios[0].checked = true;
-            });
-        }
-
         function switchTab(mode) {
             currentMode = mode;
             const btnBase = document.getElementById('btnBaseline');
@@ -349,14 +337,12 @@
                 instructionText.innerHTML = "Please answer on the basis of the child's behaviour over <strong>the last six months</strong>.";
                 questionnaireSec.classList.remove('hidden');
                 comparisonSec.classList.add('hidden');
-                clearFormFields();
             } else if (mode === 'followup') {
                 btnFollow.className = "px-3 py-2 rounded bg-[#112233] text-white transition";
                 headerTitle.innerText = "1-Month Follow-Up Review";
                 instructionText.innerHTML = "Please answer on the basis of the child's behaviour over <strong>the last month</strong> following strategy implementation.";
                 questionnaireSec.classList.remove('hidden');
                 comparisonSec.classList.add('hidden');
-                clearFormFields();
             } else {
                 btnComp.className = "px-3 py-2 rounded bg-[#112233] text-white transition";
                 headerTitle.innerText = "Progress Comparison Report";
@@ -377,7 +363,6 @@
                 document.getElementById('baseHy').value = sessionData.baseline.scores.hyper;
                 document.getElementById('basePe').value = sessionData.baseline.scores.peer;
                 document.getElementById('basePr').value = sessionData.baseline.scores.prosocial;
-                document.getElementById('baseTot').value = sessionData.baseline.totalDiff;
             }
             if (sessionData.followup) {
                 document.getElementById('folEm').value = sessionData.followup.scores.emotional;
@@ -385,9 +370,29 @@
                 document.getElementById('folHy').value = sessionData.followup.scores.hyper;
                 document.getElementById('folPe').value = sessionData.followup.scores.peer;
                 document.getElementById('folPr').value = sessionData.followup.scores.prosocial;
-                document.getElementById('folTot').value = sessionData.followup.totalDiff;
             }
+            calculateComparisonTotals();
         }
+
+        function calculateComparisonTotals() {
+            const baseTot = parseInt(document.getElementById('baseEm').value || 0) + 
+                            parseInt(document.getElementById('baseCo').value || 0) + 
+                            parseInt(document.getElementById('baseHy').value || 0) + 
+                            parseInt(document.getElementById('basePe').value || 0);
+            
+            const folTot = parseInt(document.getElementById('folEm').value || 0) + 
+                           parseInt(document.getElementById('folCo').value || 0) + 
+                           parseInt(document.getElementById('folHy').value || 0) + 
+                           parseInt(document.getElementById('folPe').value || 0);
+
+            document.getElementById('baseTot').value = baseTot;
+            document.getElementById('folTot').value = folTot;
+        }
+
+        // Add live listeners to inputs so totals update instantly
+        ['baseEm','baseCo','baseHy','basePe','folEm','folCo','folHy','folPe'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateComparisonTotals);
+        });
 
         function resetAndReload() {
             location.reload();
@@ -411,7 +416,7 @@
             const dob = document.getElementById('childDob').value || "N/A";
             const setting = document.getElementById('childSetting').value || "N/A";
 
-            // Save to active session storage
+            // Save into session memory
             sessionData[currentMode] = { name, dob, setting, scores, totalDiff };
 
             document.getElementById('resName').innerText = name;
@@ -459,6 +464,8 @@
         }
 
         function generateComparisonReport() {
+            calculateComparisonTotals();
+
             document.getElementById('resName').innerText = document.getElementById('compName').value || "Child 1";
             document.getElementById('resDob').innerText = document.getElementById('compDob').value || "N/A";
             document.getElementById('resSetting').innerText = document.getElementById('compSetting').value || "N/A";
