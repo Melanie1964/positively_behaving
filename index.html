@@ -9,19 +9,18 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
 
-    <!-- Top Navigation Menu -->
     <div class="max-w-4xl mx-auto mb-4 flex flex-wrap justify-between items-center bg-white p-3 rounded shadow-sm gap-2">
         <div class="space-x-1 text-xs font-bold">
             <button onclick="switchTab('baseline')" id="btnBaseline" class="px-3 py-2 rounded bg-[#112233] text-white transition">Baseline SDQ</button>
             <button onclick="switchTab('followup')" id="btnFollowup" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">1-Month Follow-Up SDQ</button>
             <button onclick="switchTab('comparison')" id="btnComparison" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">Progress Comparison Report</button>
         </div>
-        <span class="text-xs text-slate-500 font-medium">Positively Behaving Hub</span>
+        <div>
+            <button onclick="endSession()" class="px-3 py-2 rounded bg-red-600 hover:bg-red-700 text-white transition text-xs font-bold uppercase tracking-wider">End Session / New Child</button>
+        </div>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
     <div id="appContainer" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-        <!-- Header Banner -->
         <div class="bg-[#112233] text-white p-6 border-b-4 border-[#c59b27] flex justify-between items-center">
             <div>
                 <h1 id="headerTitle" class="text-xl md:text-2xl font-bold tracking-wide uppercase">Baseline Assessment</h1>
@@ -34,12 +33,9 @@
             </div>
         </div>
 
-        <!-- Form Container -->
         <div class="p-6 md:p-8 space-y-6">
             
-            <!-- SECTION A: QUESTIONNAIRE VIEW -->
             <div id="questionnaireSection" class="space-y-6">
-                <!-- Child Details Box -->
                 <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-3">
                     <h2 class="text-sm font-bold text-[#112233] uppercase">Child & Setting Details (Use Alias e.g. Child 1)</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700">
@@ -58,48 +54,49 @@
                     </div>
                 </div>
 
-                <!-- Questionnaire Instructions -->
                 <div id="instructionText" class="text-xs italic text-slate-600 bg-slate-50 p-3 border border-slate-200 rounded">
                     Please answer on the basis of the child's behaviour over <strong>the last six months</strong>.
                 </div>
 
-                <!-- SDQ 25 Questions Container -->
                 <div class="space-y-3">
                     <h3 class="text-xs font-bold text-[#112233] uppercase bg-[#112233] text-white p-2 rounded">Part 1: Strengths & Difficulties Questionnaire (Ages 2–4)</h3>
                     <div id="sdqQuestions" class="space-y-2"></div>
                 </div>
 
-                <!-- Submit Button -->
-                <div class="text-center pt-4">
+                <div class="text-center pt-4 space-y-2">
+                    <p class="text-xs text-amber-700 font-semibold italic">⚠️ Important: You must click this button to save and analyze scores before viewing the final progress comparison report.</p>
                     <button onclick="processAndSaveAssessment()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                         Analyze Scores & Generate Report
                     </button>
                 </div>
             </div>
 
-            <!-- SECTION B: COMPARISON TOOL VIEW -->
             <div id="comparisonSection" class="hidden space-y-6">
+                <div id="missingDataAlert" class="hidden bg-amber-50 border-l-4 border-amber-500 p-4 rounded space-y-2">
+                    <h2 class="text-sm font-bold text-amber-800 uppercase">⚠️ Action Required: Missing Analyzed Data</h2>
+                    <p class="text-xs text-amber-700">You have not clicked <strong>"Analyze Scores"</strong> for one or more questionnaires yet. Please use the tabs above to go back, complete your forms, and click Analyze. Your entered answers are safely saved!</p>
+                </div>
+
                 <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-2">
                     <h2 class="text-sm font-bold text-[#112233] uppercase">Progress Comparison Tool (Baseline vs. 1-Month Follow-Up)</h2>
-                    <p class="text-xs text-slate-600">Scores from your completed session forms are loaded below automatically. Review or adjust values if needed before generating your progress report.</p>
+                    <p class="text-xs text-slate-600">Successfully captured session scores are loaded below automatically.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700 bg-slate-50 p-4 rounded border border-slate-200">
                     <div>
                         <label class="block mb-1">Child's Name / Alias:</label>
-                        <input type="text" id="compName" placeholder="e.g. Child 1" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
+                        <input type="text" id="compName" placeholder="e.g. Child 1" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
                     </div>
                     <div>
                         <label class="block mb-1">Age / D.O.B:</label>
-                        <input type="text" id="compDob" placeholder="e.g. 3 yrs 8 mos" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
+                        <input type="text" id="compDob" placeholder="e.g. 3 yrs 8 mos" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
                     </div>
                     <div>
                         <label class="block mb-1">Setting / Class:</label>
-                        <input type="text" id="compSetting" placeholder="e.g. Acorn Nursery" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
+                        <input type="text" id="compSetting" placeholder="e.g. Acorn Nursery" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
                     </div>
                 </div>
 
-                <!-- Score Entry Table -->
                 <div class="border border-slate-300 rounded p-4 space-y-3">
                     <h3 class="font-bold text-[#112233] uppercase text-xs tracking-wide">Captured Subscale Totals</h3>
                     <table class="w-full text-left border-collapse text-xs">
@@ -113,40 +110,39 @@
                         <tbody class="divide-y divide-slate-200">
                             <tr>
                                 <td class="p-2 font-medium">Emotional Symptoms</td>
-                                <td class="p-2"><input type="number" id="baseEm" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
-                                <td class="p-2"><input type="number" id="folEm" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
+                                <td class="p-2"><input type="number" id="baseEm" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                                <td class="p-2"><input type="number" id="folEm" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
                             </tr>
                             <tr>
                                 <td class="p-2 font-medium">Conduct Problems</td>
-                                <td class="p-2"><input type="number" id="baseCo" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
-                                <td class="p-2"><input type="number" id="folCo" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
+                                <td class="p-2"><input type="number" id="baseCo" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                                <td class="p-2"><input type="number" id="folCo" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
                             </tr>
                             <tr>
                                 <td class="p-2 font-medium">Hyperactivity / Inattention</td>
-                                <td class="p-2"><input type="number" id="baseHy" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
-                                <td class="p-2"><input type="number" id="folHy" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
+                                <td class="p-2"><input type="number" id="baseHy" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                                <td class="p-2"><input type="number" id="folHy" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
                             </tr>
                             <tr>
                                 <td class="p-2 font-medium">Peer Problems</td>
-                                <td class="p-2"><input type="number" id="basePe" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
-                                <td class="p-2"><input type="number" id="folPe" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
+                                <td class="p-2"><input type="number" id="basePe" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                                <td class="p-2"><input type="number" id="folPe" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
                             </tr>
                             <tr>
                                 <td class="p-2 font-medium">Prosocial Strength (Higher is better)</td>
-                                <td class="p-2"><input type="number" id="basePr" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
-                                <td class="p-2"><input type="number" id="folPr" value="0" min="0" max="10" class="w-20 p-1 border rounded text-center"></td>
+                                <td class="p-2"><input type="number" id="basePr" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                                <td class="p-2"><input type="number" id="folPr" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
                             </tr>
                             <tr class="font-bold bg-slate-50">
                                 <td class="p-2">Total Difficulties Score (Sum of 4 problem scales)</td>
-                                <td class="p-2"><input type="number" id="baseTot" value="0" min="0" max="40" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                                <td class="p-2"><input type="number" id="folTot" value="0" min="0" max="40" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                                <td class="p-2"><input type="number" id="baseTot" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                                <td class="p-2"><input type="number" id="folTot" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Submit Comparison Button -->
-                <div class="text-center pt-4 pb-4">
+                <div class="text-center pt-4 pb-4" id="comparisonButtonWrapper">
                     <button onclick="generateComparisonReport()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                         Generate Progress Comparison Report PDF
                     </button>
@@ -156,9 +152,7 @@
         </div>
     </div>
 
-    <!-- Printable Result Template (Hidden until generated) -->
     <div id="printArea" class="hidden max-w-4xl mx-auto bg-white p-6 rounded shadow text-xs space-y-4">
-        <!-- Header -->
         <div class="flex justify-between items-center border-b-2 border-[#112233] pb-3">
             <div>
                 <h2 id="printReportTitle" class="text-base font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
@@ -170,14 +164,12 @@
             </div>
         </div>
 
-        <!-- Pupil Profile Details -->
         <div class="bg-slate-50 p-2.5 rounded border border-slate-200 grid grid-cols-3 gap-4 font-medium text-slate-700">
             <div><strong>Child / Alias:</strong> <span id="resName"></span></div>
             <div><strong>Age / D.O.B:</strong> <span id="resDob"></span></div>
             <div><strong>Setting:</strong> <span id="resSetting"></span></div>
         </div>
 
-        <!-- SDQ Scores Summary Box -->
         <div id="standardReportBox" class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide" id="tableHeaderTitle">SDQ Subscale Analysis & Banding</h3>
             <table class="w-full text-left border-collapse">
@@ -199,7 +191,6 @@
             </table>
         </div>
 
-        <!-- Comparison Report Table (Hidden unless comparison mode) -->
         <div id="comparisonReportBox" class="hidden border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">Baseline vs. 1-Month Follow-Up Progress Matrix</h3>
             <table class="w-full text-left border-collapse">
@@ -212,12 +203,10 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200" id="comparisonTableBody">
-                    <!-- Injected dynamically -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
-        <!-- Tailored Action Plan & Suggested Strategies Box -->
         <div id="strategyBoxContainer" class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide" id="strategyHeaderTitle">Part 2: Tailored Low-Confrontation Action Plan & Strategies</h3>
             <div class="bg-[#eaf1f6] p-3 rounded border-l-4 border-[#112233] space-y-1">
@@ -250,7 +239,6 @@
             </table>
         </div>
 
-        <!-- Private Monitoring Tally Log -->
         <div id="tallyLogContainer" class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 3: Behaviour Monitoring & Private Tally Log</h3>
             <table class="w-full text-center border-collapse border border-slate-300">
@@ -272,19 +260,26 @@
             </table>
         </div>
 
-        <!-- Download Action Button & Back Button -->
         <div class="text-center pt-2 space-x-3">
             <button onclick="downloadPDF()" class="bg-[#112233] text-white font-bold px-6 py-2 rounded shadow uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                 Download PDF Report
             </button>
-            <button onclick="resetAndReload()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded text-xs">
-                Start New Assessment / Report
+            <button onclick="returnToHub()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded text-xs">
+                Back to Hub / Forms
             </button>
         </div>
     </div>
 
     <script>
         let currentMode = 'baseline';
+        
+        // Save form answers temporarily in memory so switching tabs doesn't wipe them
+        let savedFormStates = {
+            baseline: { name: "", dob: "", setting: "", answers: {} },
+            followup: { name: "", dob: "", setting: "", answers: {} }
+        };
+
+        // Saved analyzed scores for comparison report
         let sessionData = {
             baseline: null,
             followup: null
@@ -333,8 +328,46 @@
             container.appendChild(div);
         });
 
+        function captureCurrentFormState() {
+            if (currentMode === 'baseline' || currentMode === 'followup') {
+                savedFormStates[currentMode].name = document.getElementById('childName').value;
+                savedFormStates[currentMode].dob = document.getElementById('childDob').value;
+                savedFormStates[currentMode].setting = document.getElementById('childSetting').value;
+                
+                questions.forEach((q, index) => {
+                    const radios = document.getElementsByName(`q${index}`);
+                    for (const r of radios) {
+                        if (r.checked) {
+                            savedFormStates[currentMode].answers[index] = r.value;
+                            break;
+                        }
+                    }
+                });
+            }
+        }
+
+        function restoreFormState(mode) {
+            const state = savedFormStates[mode];
+            document.getElementById('childName').value = state.name;
+            document.getElementById('childDob').value = state.dob;
+            document.getElementById('childSetting').value = state.setting;
+
+            questions.forEach((q, index) => {
+                const val = state.answers[index] !== undefined ? state.answers[index] : "0";
+                const radios = document.getElementsByName(`q${index}`);
+                for (const r of radios) {
+                    if (r.value === val) {
+                        r.checked = true;
+                        break;
+                    }
+                }
+            });
+        }
+
         function switchTab(mode) {
+            captureCurrentFormState();
             currentMode = mode;
+            
             const btnBase = document.getElementById('btnBaseline');
             const btnFollow = document.getElementById('btnFollowup');
             const btnComp = document.getElementById('btnComparison');
@@ -358,17 +391,33 @@
                 instructionText.innerHTML = "Please answer on the basis of the child's behaviour over <strong>the last six months</strong>.";
                 questionnaireSec.classList.remove('hidden');
                 comparisonSec.classList.add('hidden');
+                restoreFormState('baseline');
             } else if (mode === 'followup') {
                 btnFollow.className = "px-3 py-2 rounded bg-[#112233] text-white transition";
                 headerTitle.innerText = "1-Month Follow-Up Review";
                 instructionText.innerHTML = "Please answer on the basis of the child's behaviour over <strong>the last month</strong> following strategy implementation.";
                 questionnaireSec.classList.remove('hidden');
                 comparisonSec.classList.add('hidden');
+                restoreFormState('followup');
             } else {
                 btnComp.className = "px-3 py-2 rounded bg-[#112233] text-white transition";
                 headerTitle.innerText = "Progress Comparison Report";
                 questionnaireSec.classList.add('hidden');
                 comparisonSec.classList.remove('hidden');
+                checkAndPopulateComparison();
+            }
+        }
+
+        function checkAndPopulateComparison() {
+            const alertBox = document.getElementById('missingDataAlert');
+            const btnWrapper = document.getElementById('comparisonButtonWrapper');
+
+            if (!sessionData.baseline && !sessionData.followup) {
+                alertBox.classList.remove('hidden');
+                btnWrapper.classList.add('hidden');
+            } else {
+                alertBox.classList.add('hidden');
+                btnWrapper.classList.remove('hidden');
                 populateComparisonFields();
             }
         }
@@ -410,13 +459,16 @@
             document.getElementById('folTot').value = folTot;
         }
 
-        ['baseEm','baseCo','baseHy','basePe','basePr','folEm','folCo','folHy','folPe','folPr'].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.addEventListener('input', calculateComparisonTotals);
-        });
+        function endSession() {
+            if (confirm("Are you sure you want to end this session and clear data to start with a new child?")) {
+                location.reload();
+            }
+        }
 
-        function resetAndReload() {
-            location.reload();
+        function returnToHub() {
+            document.getElementById('printArea').classList.add('hidden');
+            document.getElementById('appContainer').style.display = 'block';
+            window.scrollTo(0, 0);
         }
 
         function processAndSaveAssessment() {
@@ -437,7 +489,8 @@
             const dob = document.getElementById('childDob').value || "N/A";
             const setting = document.getElementById('childSetting').value || "N/A";
 
-            // Store scores securely in active session memory
+            // Save state and analyzed data
+            captureCurrentFormState();
             sessionData[currentMode] = { name, dob, setting, scores, totalDiff };
 
             document.getElementById('resName').innerText = name;
