@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Positively Behaving - Preschool SDQ & Action Plan Generator</title>
-    <!-- Include Tailwind CSS for clean professional styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Include html2pdf library for instant locked-down PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
 
-    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <div id="appContainer" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <!-- Header Banner -->
         <div class="bg-[#112233] text-white p-6 border-b-4 border-[#c59b27] flex justify-between items-center">
             <div>
@@ -54,7 +52,6 @@
             <!-- SDQ 25 Questions Container -->
             <div id="sdqQuestions" class="space-y-3">
                 <h3 class="text-xs font-bold text-[#112233] uppercase bg-[#112233] text-white p-2 rounded">Part 1: Strengths & Difficulties Questionnaire (Ages 2–4)</h3>
-                <!-- Questions will be injected here via script -->
             </div>
 
             <!-- Submit Button -->
@@ -66,47 +63,144 @@
         </div>
     </div>
 
-    <!-- Hidden Printable Result Template -->
+    <!-- Printable Result Template (Hidden until generated) -->
     <div id="printArea" class="hidden max-w-4xl mx-auto bg-white p-8 mt-8 rounded shadow text-xs space-y-6">
-        <!-- Will be dynamically populated and downloaded as PDF -->
+        <!-- Header -->
+        <div class="flex justify-between items-center border-b-2 border-[#112233] pb-4">
+            <div>
+                <h2 class="text-lg font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
+                <p class="text-slate-600 font-semibold">Positively Behaving Framework • Course Strategy Output</p>
+            </div>
+            <div class="text-right text-slate-600">
+                <strong>Melanie Horne</strong><br>
+                Positively_Behaving@outlook.com
+            </div>
+        </div>
+
+        <!-- Pupil Profile Details -->
+        <div class="bg-slate-50 p-3 rounded border border-slate-200 grid grid-cols-3 gap-4 font-medium text-slate-700">
+            <div><strong>Child:</strong> <span id="resName"></span></div>
+            <div><strong>Age / D.O.B:</strong> <span id="resDob"></span></div>
+            <div><strong>Setting:</strong> <span id="resSetting"></span></div>
+        </div>
+
+        <!-- SDQ Scores Summary Box -->
+        <div class="border border-slate-300 rounded p-4 space-y-2">
+            <h3 class="font-bold text-[#112233] uppercase tracking-wide">SDQ Subscale Analysis & Banding</h3>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                        <th class="p-2">Subscale</th>
+                        <th class="p-2">Score</th>
+                        <th class="p-2">Normative Banding (Ages 2-4)</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                    <tr><td class="p-2">Emotional Symptoms</td><td class="p-2" id="scoreEmotional">-</td><td class="p-2" id="bandEmotional">-</td></tr>
+                    <tr><td class="p-2">Conduct Problems</td><td class="p-2" id="scoreConduct">-</td><td class="p-2" id="bandConduct">-</td></tr>
+                    <tr><td class="p-2">Hyperactivity / Inattention</td><td class="p-2" id="scoreHyper">-</td><td class="p-2" id="bandHyper">-</td></tr>
+                    <tr><td class="p-2">Peer Problems</td><td class="p-2" id="scorePeer">-</td><td class="p-2" id="bandPeer">-</td></tr>
+                    <tr><td class="p-2">Prosocial Strength</td><td class="p-2" id="scoreProsocial">-</td><td class="p-2" id="bandProsocial">-</td></tr>
+                    <tr class="font-bold bg-slate-50"><td class="p-2">Total Difficulties Score</td><td class="p-2" id="scoreTotal">-</td><td class="p-2" id="bandTotal">-</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tailored Action Plan Table -->
+        <div class="border border-slate-300 rounded p-4 space-y-3">
+            <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 2: Targeted Low-Confrontation Action Plan</h3>
+            <p class="text-slate-600">Primary Focus Area Identified: <strong id="primaryFocus" class="text-[#112233]"></strong></p>
+            <table class="w-full text-left border-collapse border border-slate-300">
+                <thead>
+                    <tr class="bg-[#112233] text-white">
+                        <th class="p-2 border border-slate-300">Trigger / Antecedent</th>
+                        <th class="p-2 border border-slate-300">Low-Confrontation Strategy</th>
+                        <th class="p-2 border border-slate-300">Environmental / Transition Check</th>
+                        <th class="p-2 border border-slate-300">Success Criteria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-2 border border-slate-300">Unstructured play transitions and group carpet times.</td>
+                        <td class="p-2 border border-slate-300">Pre-warning transition markers; assign specialized helper role.</td>
+                        <td class="p-2 border border-slate-300">Quiet corner station set up prior to group changes.</td>
+                        <td class="p-2 border border-slate-300">Calm independent transition within 30 seconds.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border border-slate-300">Sharing resources or dealing with denied immediate requests.</td>
+                        <td class="p-2 border border-slate-300">Use visual timer blocks and scripted choices (first/then).</td>
+                        <td class="p-2 border border-slate-300">Ensure duplicate popular toys are available in zone.</td>
+                        <td class="p-2 border border-slate-300">Verbal acknowledgement of waiting turn without escalation.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Private Monitoring Tally Log -->
+        <div class="border border-slate-300 rounded p-4 space-y-3">
+            <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 3: Behaviour Monitoring & Private Tally Log</h3>
+            <table class="w-full text-center border-collapse border border-slate-300">
+                <thead>
+                    <tr class="bg-slate-200 text-slate-800">
+                        <th class="p-2 border border-slate-300 text-left">Session / Timeblock</th>
+                        <th class="p-2 border border-slate-300">Monday</th>
+                        <th class="p-2 border border-slate-300">Tuesday</th>
+                        <th class="p-2 border border-slate-300">Wednesday</th>
+                        <th class="p-2 border border-slate-300">Thursday</th>
+                        <th class="p-2 border border-slate-300">Friday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="p-2 border border-slate-300 text-left font-medium">Morning Session</td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td></tr>
+                    <tr><td class="p-2 border border-slate-300 text-left font-medium">Lunchtime / Transition</td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td></tr>
+                    <tr><td class="p-2 border border-slate-300 text-left font-medium">Afternoon Session</td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td><td class="p-2 border border-slate-300"></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Download Action Button -->
+        <div class="text-center pt-4">
+            <button onclick="downloadPDF()" class="bg-[#112233] text-white font-bold px-6 py-2.5 rounded shadow uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
+                Download Locked Action Plan PDF
+            </button>
+        </div>
     </div>
 
     <script>
         const questions = [
-            "Considerate of other people's feelings",
-            "Restless, overactive, cannot stay still for long",
-            "Often complains of headaches, stomach-aches or sickness",
-            "Shares readily with other children (treats, toys, pencils etc.)",
-            "Often has temper tantrums or hot tempers",
-            "Rather solitary, tends to play alone",
-            "Generally obedient, usually does what adults request",
-            "Many worries, often seems worried",
-            "Helpful if someone is hurt, upset or feeling ill",
-            "Constantly fidgeting or squirming",
-            "Has at least one good friend",
-            "Often fights with other children or bullies them",
-            "Often unhappy, down-hearted or tearful",
-            "Generally liked by other children",
-            "Easily distracted, concentration wanders",
-            "Nervous or clingy in new situations, easily loses confidence",
-            "Kind to younger children",
-            "Often argumentative with adults",
-            "Picked on or bullied by other children",
-            "Often volunteers to help others (parents, teachers, other children)",
-            "Can stop and think things out before acting",
-            "Can be spiteful to others",
-            "Gets on better with adults than with other children",
-            "Many fears, easily scared",
-            "Sees tasks through to the end, good attention span"
+            { text: "Considerate of other people's feelings", sub: "prosocial", rev: false },
+            { text: "Restless, overactive, cannot stay still for long", sub: "hyper", rev: false },
+            { text: "Often complains of headaches, stomach-aches or sickness", sub: "emotional", rev: false },
+            { text: "Shares readily with other children (treats, toys, pencils etc.)", sub: "prosocial", rev: false },
+            { text: "Often has temper tantrums or hot tempers", sub: "conduct", rev: false },
+            { text: "Rather solitary, tends to play alone", sub: "peer", rev: false },
+            { text: "Generally obedient, usually does what adults request", sub: "conduct", rev: true },
+            { text: "Many worries, often seems worried", sub: "emotional", rev: false },
+            { text: "Helpful if someone is hurt, upset or feeling ill", sub: "prosocial", rev: false },
+            { text: "Constantly fidgeting or squirming", sub: "hyper", rev: false },
+            { text: "Has at least one good friend", sub: "peer", rev: true },
+            { text: "Often fights with other children or bullies them", sub: "conduct", rev: false },
+            { text: "Often unhappy, down-hearted or tearful", sub: "emotional", rev: false },
+            { text: "Generally liked by other children", sub: "peer", rev: true },
+            { text: "Easily distracted, concentration wanders", sub: "hyper", rev: false },
+            { text: "Nervous or clingy in new situations, easily loses confidence", sub: "emotional", rev: false },
+            { text: "Kind to younger children", sub: "prosocial", rev: false },
+            { text: "Often argumentative with adults", sub: "conduct", rev: false },
+            { text: "Picked on or bullied by other children", sub: "peer", rev: true },
+            { text: "Often volunteers to help others (parents, teachers, other children)", sub: "prosocial", rev: false },
+            { text: "Can stop and think things out before acting", sub: "hyper", rev: true },
+            { text: "Can be spiteful to others", sub: "conduct", rev: false },
+            { text: "Gets on better with adults than with other children", sub: "peer", rev: true },
+            { text: "Many fears, easily scared", sub: "emotional", rev: false },
+            { text: "Sees tasks through to the end, good attention span", sub: "hyper", rev: true }
         ];
 
-        // Render Questions dynamically
         const container = document.getElementById('sdqQuestions');
         questions.forEach((q, index) => {
             const div = document.createElement('div');
             div.className = "flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-2.5 border border-slate-200 rounded text-xs";
             div.innerHTML = `
-                <span class="font-medium text-slate-800 mb-2 md:mb-0">${index + 1}. ${q}</span>
+                <span class="font-medium text-slate-800 mb-2 md:mb-0">${index + 1}. ${q.text}</span>
                 <div class="space-x-3 text-slate-600 font-semibold">
                     <label><input type="radio" name="q${index}" value="0" checked> Not (0)</label>
                     <label><input type="radio" name="q${index}" value="1"> Some (1)</label>
@@ -117,8 +211,63 @@
         });
 
         function generateActionPlan() {
-            const name = document.getElementById('childName').value || "Child Name";
-            alert("Form submitted successfully! Analysis engine running for " + name);
+            let scores = { emotional: 0, conduct: 0, hyper: 0, peer: 0, prosocial: 0 };
+
+            questions.forEach((q, index) => {
+                const radios = document.getElementsByName(`q${index}`);
+                let val = 0;
+                for (const r of radios) {
+                    if (r.checked) { val = parseInt(r.value); break; }
+                }
+                if (q.rev) {
+                    val = 2 - val;
+                }
+                scores[q.sub] += val;
+            });
+
+            const totalDiff = scores.emotional + scores.conduct + scores.hyper + scores.peer;
+
+            document.getElementById('resName').innerText = document.getElementById('childName').value || "Unnamed Child";
+            document.getElementById('resDob').innerText = document.getElementById('childDob').value || "N/A";
+            document.getElementById('resSetting').innerText = document.getElementById('childSetting').value || "N/A";
+
+            document.getElementById('scoreEmotional').innerText = scores.emotional;
+            document.getElementById('scoreConduct').innerText = scores.conduct;
+            document.getElementById('scoreHyper').innerText = scores.hyper;
+            document.getElementById('scorePeer').innerText = scores.peer;
+            document.getElementById('scoreProsocial').innerText = scores.prosocial;
+            document.getElementById('scoreTotal').innerText = totalDiff;
+
+            document.getElementById('bandEmotional').innerText = scores.emotional >= 5 ? "High / Concern" : "Close to Average";
+            document.getElementById('bandConduct').innerText = scores.conduct >= 4 ? "High / Concern" : "Close to Average";
+            document.getElementById('bandHyper').innerText = scores.hyper >= 7 ? "High / Concern" : "Close to Average";
+            document.getElementById('bandPeer').innerText = scores.peer >= 4 ? "High / Concern" : "Close to Average";
+            document.getElementById('bandTotal').innerText = totalDiff >= 17 ? "High (Action Required)" : "Close to Average";
+
+            let highestSub = "Conduct Problems";
+            let maxVal = scores.conduct;
+            if (scores.hyper > maxVal) { highestSub = "Hyperactivity / Inattention"; maxVal = scores.hyper; }
+            if (scores.emotional > maxVal) { highestSub = "Emotional Symptoms"; maxVal = scores.emotional; }
+            if (scores.peer > maxVal) { highestSub = "Peer Problems"; maxVal = maxVal; }
+
+            document.getElementById('primaryFocus').innerText = highestSub;
+
+            document.getElementById('appContainer').style.display = 'none';
+            const printArea = document.getElementById('printArea');
+            printArea.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('printArea');
+            const opt = {
+                margin:       0.5,
+                filename:     'Positively_Behaving_Action_Plan.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().from(element).set(opt).save();
         }
     </script>
 </body>
