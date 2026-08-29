@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Positively Behaving - Preschool SDQ & Action Plan Generator</title>
+    <title>Positively Behaving - Teacher SDQ & Action Plan Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
 
+    <div class="max-w-4xl mx-auto mb-4 flex justify-between items-center bg-white p-3 rounded shadow-sm">
+        <div class="space-x-2 text-xs font-bold">
+            <button onclick="switchTab('baseline')" id="btnBaseline" class="px-4 py-2 rounded bg-[#112233] text-white transition">Baseline SDQ & Action Plan</button>
+            <button onclick="switchTab('followup')" id="btnFollowup" class="px-4 py-2 rounded bg-slate-200 text-slate-700 transition">Follow-Up Review (1 Month)</button>
+        </div>
+        <span class="text-xs text-slate-500 font-medium">Positively Behaving Hub</span>
+    </div>
+
     <div id="appContainer" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-        <!-- Header Banner -->
         <div class="bg-[#112233] text-white p-6 border-b-4 border-[#c59b27] flex justify-between items-center">
             <div>
-                <h1 class="text-xl md:text-2xl font-bold tracking-wide uppercase">Positively Behaving</h1>
+                <h1 id="headerTitle" class="text-xl md:text-2xl font-bold tracking-wide uppercase">Baseline Assessment</h1>
                 <p class="text-xs md:text-sm text-[#e2cb83] font-semibold">Preschool Teacher SDQ (Ages 2–4) & Action Plan Hub</p>
             </div>
             <div class="text-right text-xs text-slate-200">
@@ -23,9 +30,7 @@
             </div>
         </div>
 
-        <!-- Form Container -->
         <div class="p-6 md:p-8 space-y-6">
-            <!-- Child Details Box -->
             <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-3">
                 <h2 class="text-sm font-bold text-[#112233] uppercase">Child & Setting Details</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700">
@@ -44,17 +49,14 @@
                 </div>
             </div>
 
-            <!-- Questionnaire Instructions -->
-            <div class="text-xs italic text-slate-600 bg-slate-50 p-3 border border-slate-200 rounded">
-                Please answer on the basis of the child's behaviour over <strong>the last month</strong> following strategy implementation.
+            <div id="instructionText" class="text-xs italic text-slate-600 bg-slate-50 p-3 border border-slate-200 rounded">
+                Please answer on the basis of the child's behaviour over <strong>the last six months</strong>.
             </div>
 
-            <!-- SDQ 25 Questions Container -->
             <div id="sdqQuestions" class="space-y-3">
                 <h3 class="text-xs font-bold text-[#112233] uppercase bg-[#112233] text-white p-2 rounded">Part 1: Strengths & Difficulties Questionnaire (Ages 2–4)</h3>
             </div>
 
-            <!-- Submit Button -->
             <div class="text-center pt-4">
                 <button onclick="generateActionPlan()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                     Analyze Scores & Generate Action Plan
@@ -63,12 +65,10 @@
         </div>
     </div>
 
-    <!-- Printable Result Template (Hidden until generated) -->
     <div id="printArea" class="hidden max-w-4xl mx-auto bg-white p-6 rounded shadow text-xs space-y-4">
-        <!-- Header -->
         <div class="flex justify-between items-center border-b-2 border-[#112233] pb-3">
             <div>
-                <h2 class="text-base font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
+                <h2 id="printReportTitle" class="text-base font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
                 <p class="text-slate-600 font-semibold">Positively Behaving Framework • Course Strategy Output</p>
             </div>
             <div class="text-right text-slate-600 text-[10px]">
@@ -77,14 +77,12 @@
             </div>
         </div>
 
-        <!-- Pupil Profile Details -->
         <div class="bg-slate-50 p-2.5 rounded border border-slate-200 grid grid-cols-3 gap-4 font-medium text-slate-700">
             <div><strong>Child:</strong> <span id="resName"></span></div>
             <div><strong>Age / D.O.B:</strong> <span id="resDob"></span></div>
             <div><strong>Setting:</strong> <span id="resSetting"></span></div>
         </div>
 
-        <!-- SDQ Scores Summary Box -->
         <div class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">SDQ Subscale Analysis & Banding</h3>
             <table class="w-full text-left border-collapse">
@@ -106,9 +104,8 @@
             </table>
         </div>
 
-        <!-- Tailored Action Plan & Suggested Strategies Box -->
         <div class="border border-slate-300 rounded p-3 space-y-2">
-            <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 2: Tailored Low-Confrontation Action Plan & Suggested Strategies</h3>
+            <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 2: Tailored Low-Confrontation Action Plan & Strategies</h3>
             <div class="bg-[#eaf1f6] p-3 rounded border-l-4 border-[#112233] space-y-1">
                 <p class="font-bold text-[#112233]">Primary Focus Area Identified: <span id="primaryFocus" class="underline"></span></p>
                 <p id="strategyAdvice" class="text-slate-700 font-medium"></p>
@@ -139,7 +136,6 @@
             </table>
         </div>
 
-        <!-- Private Monitoring Tally Log -->
         <div class="border border-slate-300 rounded p-3 space-y-2">
             <h3 class="font-bold text-[#112233] uppercase tracking-wide">Part 3: Behaviour Monitoring & Private Tally Log</h3>
             <table class="w-full text-center border-collapse border border-slate-300">
@@ -161,15 +157,19 @@
             </table>
         </div>
 
-        <!-- Download Action Button -->
-        <div class="text-center pt-2">
+        <div class="text-center pt-2 space-x-3">
             <button onclick="downloadPDF()" class="bg-[#112233] text-white font-bold px-6 py-2 rounded shadow uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
                 Download Locked Action Plan PDF
+            </button>
+            <button onclick="location.reload()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded text-xs">
+                Start New Assessment
             </button>
         </div>
     </div>
 
     <script>
+        let currentMode = 'baseline';
+
         const questions = [
             { text: "Considerate of other people's feelings", sub: "prosocial", rev: false },
             { text: "Restless, overactive, cannot stay still for long", sub: "hyper", rev: false },
@@ -213,78 +213,9 @@
             container.appendChild(div);
         });
 
-        function generateActionPlan() {
-            let scores = { emotional: 0, conduct: 0, hyper: 0, peer: 0, prosocial: 0 };
-
-            questions.forEach((q, index) => {
-                const radios = document.getElementsByName(`q${index}`);
-                let val = 0;
-                for (const r of radios) {
-                    if (r.checked) { val = parseInt(r.value); break; }
-                }
-                if (q.rev) { val = 2 - val; }
-                scores[q.sub] += val;
-            });
-
-            const totalDiff = scores.emotional + scores.conduct + scores.hyper + scores.peer;
-
-            document.getElementById('resName').innerText = document.getElementById('childName').value || "Unnamed Child";
-            document.getElementById('resDob').innerText = document.getElementById('childDob').value || "N/A";
-            document.getElementById('resSetting').innerText = document.getElementById('childSetting').value || "N/A";
-
-            document.getElementById('scoreEmotional').innerText = scores.emotional;
-            document.getElementById('scoreConduct').innerText = scores.conduct;
-            document.getElementById('scoreHyper').innerText = scores.hyper;
-            document.getElementById('scorePeer').innerText = scores.peer;
-            document.getElementById('scoreProsocial').innerText = scores.prosocial;
-            document.getElementById('scoreTotal').innerText = totalDiff;
-
-            document.getElementById('bandEmotional').innerText = scores.emotional >= 5 ? "High / Concern" : "Close to Average";
-            document.getElementById('bandConduct').innerText = scores.conduct >= 4 ? "High / Concern" : "Close to Average";
-            document.getElementById('bandHyper').innerText = scores.hyper >= 7 ? "High / Concern" : "Close to Average";
-            document.getElementById('bandPeer').innerText = scores.peer >= 4 ? "High / Concern" : "Close to Average";
-            document.getElementById('bandTotal').innerText = totalDiff >= 17 ? "High (Action Required)" : "Close to Average";
-
-            let highestSub = "Conduct Problems";
-            let maxVal = scores.conduct;
-            let advice = "Focus on low-confrontation management, preemptive transition warnings, and positive reinforcement for calm behavior.";
-            
-            if (scores.hyper > maxVal) { 
-                highestSub = "Hyperactivity / Inattention"; 
-                maxVal = scores.hyper;
-                advice = "Incorporate movement breaks, clear visual schedules, and chunked instructions to support focus and sustained attention.";
-            }
-            if (scores.emotional > maxVal) { 
-                highestSub = "Emotional Symptoms"; 
-                maxVal = scores.emotional;
-                advice = "Establish a safe 'calm-down' space, use emotion-naming cards, and build predictable routines to lower anxiety.";
-            }
-            if (scores.peer > maxVal) { 
-                highestSub = "Peer Problems"; 
-                maxVal = scores.peer;
-                advice = "Facilitate structured small-group cooperative games and adult-guided social interactions to build positive peer relationships.";
-            }
-
-            document.getElementById('primaryFocus').innerText = highestSub;
-            document.getElementById('strategyAdvice').innerText = advice;
-
-            document.getElementById('appContainer').style.display = 'none';
-            const printArea = document.getElementById('printArea');
-            printArea.classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
-
-        function downloadPDF() {
-            const element = document.getElementById('printArea');
-            const opt = {
-                margin:       0.3,
-                filename:     'Positively_Behaving_Action_Plan.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().from(element).set(opt).save();
-        }
-    </script>
-</body>
-</html>
+        function switchTab(mode) {
+            currentMode = mode;
+            const btnBase = document.getElementById('btnBaseline');
+            const btnFollow = document.getElementById('btnFollowup');
+            const headerTitle = document.getElementById('headerTitle');
+            const instructionText = document.getElementById('instructionText');
