@@ -158,9 +158,9 @@
                 <h2 id="printReportTitle" class="text-base font-bold text-[#112233] uppercase">Individual Behaviour Action Plan & Follow-Up</h2>
                 <p class="text-slate-600 font-semibold">Positively Behaving Framework • Course Strategy Output</p>
             </div>
-            <div class="text-right text-slate-600 text-[10px]">
-                <strong>Melanie Horne</strong><br>
-                Positively_Behaving@outlook.com
+            <div class="text-right space-y-1">
+                <span class="text-slate-600 text-[10px] block"><strong>Melanie Horne</strong><br>Positively_Behaving@outlook.com</span>
+                <button onclick="endSession()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 py-1 rounded text-[10px] uppercase tracking-wider">End Session / New Child</button>
             </div>
         </div>
 
@@ -273,13 +273,11 @@
     <script>
         let currentMode = 'baseline';
         
-        // Save form answers temporarily in memory so switching tabs doesn't wipe them
         let savedFormStates = {
             baseline: { name: "", dob: "", setting: "", answers: {} },
             followup: { name: "", dob: "", setting: "", answers: {} }
         };
 
-        // Saved analyzed scores for comparison report
         let sessionData = {
             baseline: null,
             followup: null
@@ -489,7 +487,6 @@
             const dob = document.getElementById('childDob').value || "N/A";
             const setting = document.getElementById('childSetting').value || "N/A";
 
-            // Save state and analyzed data
             captureCurrentFormState();
             sessionData[currentMode] = { name, dob, setting, scores, totalDiff };
 
