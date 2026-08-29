@@ -341,6 +341,12 @@
             const instructionText = document.getElementById('instructionText');
             const questionnaireSec = document.getElementById('questionnaireSection');
             const comparisonSec = document.getElementById('comparisonSection');
+            const appContainer = document.getElementById('appContainer');
+            const printArea = document.getElementById('printArea');
+
+            // Always ensure the form container is visible and print area is hidden when switching tabs
+            appContainer.style.display = 'block';
+            printArea.classList.add('hidden');
 
             // Reset button styles
             btnBase.className = "px-3 py-2 rounded bg-slate-200 text-slate-700 transition";
@@ -425,7 +431,6 @@
             document.getElementById('primaryFocus').innerText = highestSub;
             document.getElementById('strategyAdvice').innerText = advice;
 
-            // Configure views for standard report
             if (currentMode === 'baseline') {
                 document.getElementById('printReportTitle').innerText = "Individual Behaviour Action Plan (Baseline)";
             } else {
@@ -490,7 +495,6 @@
             document.getElementById('standardReportBox').classList.add('hidden');
             document.getElementById('comparisonReportBox').classList.remove('hidden');
             document.getElementById('strategyBoxContainer').classList.add('hidden');
-            document.assertEqual ? null : null; // filler
             document.getElementById('tallyLogContainer').classList.add('hidden');
 
             document.getElementById('appContainer').style.display = 'none';
