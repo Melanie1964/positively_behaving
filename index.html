@@ -8,7 +8,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
-
+<!-- Login Gate -->
+<div id="login-container" style="text-align: center; padding: 60px 20px; font-family: sans-serif; max-width: 500px; margin: 40px auto; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <h2>Positively Behaving Hub</h2>
+    <p>Please enter your registered school email address to unlock your tools:</p>
+    <input type="email" id="school-email" placeholder="name@school.sch.uk" style="padding: 12px; width: 100%; max-width: 300px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+    <br>
+    <button onclick="checkAccess()" style="padding: 12px 24px; font-size: 16px; background: #112233; color: #fff; border: none; cursor: pointer; border-radius: 4px;">Unlock Hub</button>
+</div>
     <div class="max-w-4xl mx-auto mb-4 flex flex-wrap justify-between items-center bg-white p-3 rounded shadow-sm gap-2">
         <div class="space-x-1 text-xs font-bold">
             <button onclick="switchTab('baseline')" id="btnBaseline" class="px-3 py-2 rounded bg-[#112233] text-white transition">Baseline SDQ</button>
@@ -601,5 +608,28 @@
             html2pdf().from(element).set(opt).save();
         }
     </script>
+    <script>
+    // Add your paying schools' emails to this list whenever a sale comes in
+    const authorizedEmails = [
+        "m19e64l@hotmail.com"
+    ];
+
+    function checkAccess() {
+        const userEmail = document.getElementById("school-email").value.trim().toLowerCase();
+        
+        if (authorizedEmails.includes(userEmail)) {
+            document.getElementById("login-container").style.display = "none";
+            // Unhide your app container
+            document.getElementById("appContainer").style.display = "block";
+        } else {
+            alert("Email not recognized. Please ensure you use your purchasing school email or visit our Gumroad store to get a license.");
+        }
+    }
+
+    // Hide the main app container by default until logged in
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("appContainer").style.display = "none";
+    });
+</script>
 </body>
 </html>
