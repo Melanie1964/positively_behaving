@@ -16,16 +16,16 @@
     <br>
     <button onclick="checkAccess()" style="padding: 12px 24px; font-size: 16px; background: #112233; color: #fff; border: none; cursor: pointer; border-radius: 4px;">Unlock Hub</button>
 </div>
-    <div class="max-w-4xl mx-auto mb-4 flex flex-wrap justify-between items-center bg-white p-3 rounded shadow-sm gap-2">
-        <div class="space-x-1 text-xs font-bold">
-            <button onclick="switchTab('baseline')" id="btnBaseline" class="px-3 py-2 rounded bg-[#112233] text-white transition">Baseline SDQ</button>
-            <button onclick="switchTab('followup')" id="btnFollowup" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">1-Month Follow-Up SDQ</button>
-            <button onclick="switchTab('comparison')" id="btnComparison" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">Progress Comparison Report</button>
-        </div>
-        <div>
-            <button onclick="endSession()" class="px-3 py-2 rounded bg-red-600 hover:bg-red-700 text-white transition text-xs font-bold uppercase tracking-wider">End Session / New Child</button>
-        </div>
-    </div>
+    <!-- Navigation Wrapper (Hidden by default until email is verified) -->
+        <div id="nav-container" style="display: none;" class="max-w-4xl mx-auto mb-4 flex flex-wrap justify-between items-center bg-white p-3 rounded shadow-sm gap-2">
+            <div class="space-x-1 text-xs font-bold">
+                <button onclick="switchTab('baseline')" id="btnBaseline" class="px-3 py-2 rounded bg-[#112233] text-white transition">Baseline SDQ</button>
+                <button onclick="switchTab('followup')" id="btnFollowup" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">1-Month Follow-Up SDQ</button>
+                <button onclick="switchTab('comparison')" id="btnComparison" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">Progress Comparison Report</button>
+            </div>
+            <div>
+                <button onclick="endSession()" class="px-3 py-2 rounded bg-red-600 hover:bg-red-700 text-white transition text-xs font-bold uppercase tracking-wider">End Session / New Child</button>
+            <div>
 
     <div id="appContainer" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <div class="bg-[#112233] text-white p-6 border-b-4 border-[#c59b27] flex justify-between items-center">
@@ -621,6 +621,7 @@
             document.getElementById("login-container").style.display = "none";
             // Unhide your app container
             document.getElementById("appContainer").style.display = "block";
+            document.getElementById("nav-container").style.display = "flex";
         } else {
             alert("Email not recognized. Please ensure you use your purchasing school email or visit our Gumroad store to get a license.");
         }
@@ -629,6 +630,7 @@
     // Hide the main app container by default until logged in
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("appContainer").style.display = "none";
+        document.getElementById("nav-container").style.display = "none";
     });
 </script>
 </body>
