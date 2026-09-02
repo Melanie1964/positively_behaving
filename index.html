@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Positively Behaving - Teacher SDQ & Action Plan Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Positively Behaving - School-Age Teacher SDQ (5-17)</title>
     
-    <style>
-        .locked-out #questionnaireSection { display: none !important; }
-        #access-gate { display: none; text-align: center; max-width: 450px; margin: 80px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-family: sans-serif; }
-    </style>
-
     <script>
     (function() {
-        const SECRET_ACCESS_TOKEN = "PBH_SECURE_2026_ACCESS";
+        const SECRET_ACCESS_TOKEN = "PBH_SCHOOL_AGE_2026_KEY";
         const urlParams = new URLSearchParams(window.location.search);
         const tokenInUrl = urlParams.get('access_token');
         const isUnlocked = localStorage.getItem('pbh_authorized') === 'true';
@@ -23,169 +16,155 @@
             localStorage.setItem('pbh_authorized', 'true');
             window.history.replaceState({}, document.title, window.location.pathname);
         } else if (!isUnlocked) {
-            document.addEventListener("DOMContentLoaded", function() {
-                document.documentElement.classList.add('locked-out');
-                const gate = document.getElementById('access-gate');
-                if (gate) gate.style.display = 'block';
-            });
+            window.location.replace("https://positivelybehaving.gumroad.com");
         }
     })();
     </script>
-</head>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
 
-    <!-- Access Gate Lock Card (Shows if unauthorized) -->
-    <div id="access-gate">
-        <h2 style="color: #0f172a; font-size: 20px; font-weight: bold; margin-bottom: 12px;">🔒 Access License Required</h2>
-        <p style="color: #475569; font-size: 14px; margin-bottom: 24px; line-height: 1.5;">This interactive Positively Behaving Hub requires an active license to view.</p>
-        <a href="https://positivelybehaving.gumroad.com" style="display: inline-block; background: #e11d48; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;">Get Access on Gumroad</a>
+    <!-- Optional Email Login / Access Gate Container -->
+    <div id="login-container" class="max-w-md mx-auto bg-white p-6 rounded shadow space-y-4 my-12 text-center">
+        <h2 class="text-sm font-bold text-[#112233] uppercase">School License Verification</h2>
+        <p class="text-xs text-slate-600">Please enter your purchasing school email address to access the toolkit:</p>
+        <input type="email" id="school-email" placeholder="e.g. teacher@school.com" class="w-full p-2 border border-slate-300 rounded text-xs">
+        <button onclick="checkAccess()" class="w-full bg-[#112233] text-white font-bold py-2 rounded text-xs uppercase tracking-wider">Verify Access</button>
     </div>
 
-    <!-- Navigation Wrapper -->
-    <div id="nav-container" class="max-w-4xl mx-auto mb-4 flex flex-wrap justify-between items-center bg-white p-3 rounded shadow-sm gap-2">
-        <div class="space-x-1 text-xs font-bold">
-            <button onclick="switchTab('baseline')" id="btnBaseline" class="px-3 py-2 rounded bg-[#112233] text-white transition">Baseline SDQ</button>
-            <button onclick="switchTab('followup')" id="btnFollowup" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">1-Month Follow-Up SDQ</button>
-            <button onclick="switchTab('comparison')" id="btnComparison" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">Progress Comparison Report</button>
-        </div>
-        <div>
-            <button onclick="endSession()" class="px-3 py-2 rounded bg-red-600 hover:bg-red-700 text-white transition text-xs font-bold uppercase tracking-wider">End Session / New Child</button>
-        </div>
-    </div>
-
-    <div id="appContainer" class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-[#112233] text-white p-6 border-b-4 border-[#c59b27] flex justify-between items-center">
+    <div id="appContainer" class="max-w-4xl mx-auto bg-white p-6 rounded shadow space-y-6">
+        
+        <!-- Header & Navigation Tabs -->
+        <div id="nav-container" class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
             <div>
-                <h1 id="headerTitle" class="text-xl md:text-2xl font-bold tracking-wide uppercase">Baseline Assessment</h1>
-                <p class="text-xs md:text-sm text-[#e2cb83] font-semibold">Preschool Teacher SDQ (Ages 2–4) & Action Plan Hub</p>
+                <h1 id="headerTitle" class="text-lg font-bold text-[#112233] uppercase">Baseline Assessment</h1>
+                <p class="text-xs text-slate-600">Positively Behaving Framework • School-Age Edition (5-17)</p>
             </div>
-            <div class="text-right text-xs text-slate-200">
-                <strong class="text-white">Melanie Horne</strong><br>
-                <a href="mailto:Positively_Behaving@outlook.com" class="text-[#e2cb83] underline">Positively_Behaving@outlook.com</a><br>
-                Tel: 07794194729
+            <div class="flex space-x-2 text-xs font-semibold">
+                <button id="btnBaseline" onclick="switchTab('baseline')" class="px-3 py-2 rounded bg-[#112233] text-white transition">Baseline Form</button>
+                <button id="btnFollowup" onclick="switchTab('followup')" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">1-Month Follow-Up</button>
+                <button id="btnComparison" onclick="switchTab('comparison')" class="px-3 py-2 rounded bg-slate-200 text-slate-700 transition">Progress Report</button>
             </div>
         </div>
 
-        <div class="p-6 md:p-8 space-y-6">
-            
-            <div id="questionnaireSection" class="space-y-6">
-                <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-3">
-                    <h2 class="text-sm font-bold text-[#112233] uppercase">Child & Setting Details (Use Alias e.g. Child 1)</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700">
-                        <div>
-                            <label class="block mb-1">Child's Name / Alias:</label>
-                            <input type="text" id="childName" placeholder="e.g. Child 1" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
-                        </div>
-                        <div>
-                            <label class="block mb-1">Age / D.O.B:</label>
-                            <input type="text" id="childDob" placeholder="e.g. 3 yrs 8 mos" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
-                        </div>
-                        <div>
-                            <label class="block mb-1">Setting / Class:</label>
-                            <input type="text" id="childSetting" placeholder="e.g. Acorn Nursery" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="instructionText" class="text-xs italic text-slate-600 bg-slate-50 p-3 border border-slate-200 rounded">
-                    Please answer on the basis of the child's behaviour over <strong>the last six months</strong>.
-                </div>
-
-                <div class="space-y-3">
-                    <h3 class="text-xs font-bold text-[#112233] uppercase bg-[#112233] text-white p-2 rounded">Part 1: Strengths & Difficulties Questionnaire (Ages 2–4)</h3>
-                    <div id="sdqQuestions" class="space-y-2"></div>
-                </div>
-
-                <div class="text-center pt-4 space-y-2">
-                    <p class="text-xs text-amber-700 font-semibold italic">⚠️ Important: You must click this button to save and analyze scores before viewing the final progress comparison report.</p>
-                    <button onclick="processAndSaveAssessment()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
-                        Analyze Scores & Generate Report
-                    </button>
-                </div>
-            </div>
-
-            <div id="comparisonSection" class="hidden space-y-6">
-                <div id="missingDataAlert" class="hidden bg-amber-50 border-l-4 border-amber-500 p-4 rounded space-y-2">
-                    <h2 class="text-sm font-bold text-amber-800 uppercase">⚠️ Action Required: Missing Analyzed Data</h2>
-                    <p class="text-xs text-amber-700">You have not clicked <strong>"Analyze Scores"</strong> for one or more questionnaires yet. Please use the tabs above to go back, complete your forms, and click Analyze. Your entered answers are safely saved!</p>
-                </div>
-
-                <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-2">
-                    <h2 class="text-sm font-bold text-[#112233] uppercase">Progress Comparison Tool (Baseline vs. 1-Month Follow-Up)</h2>
-                    <p class="text-xs text-slate-600">Successfully captured session scores are loaded below automatically.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700 bg-slate-50 p-4 rounded border border-slate-200">
+        <div id="questionnaireSection" class="space-y-6">
+            <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-3">
+                <h2 class="text-sm font-bold text-[#112233] uppercase">Child & Setting Details (Use Alias e.g. Child 1)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700">
                     <div>
                         <label class="block mb-1">Child's Name / Alias:</label>
-                        <input type="text" id="compName" placeholder="e.g. Child 1" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
+                        <input type="text" id="childName" placeholder="e.g. Child 1" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
                     </div>
                     <div>
                         <label class="block mb-1">Age / D.O.B:</label>
-                        <input type="text" id="compDob" placeholder="e.g. 3 yrs 8 mos" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
+                        <input type="text" id="childDob" placeholder="e.g. 7 yrs 2 mos" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
                     </div>
                     <div>
                         <label class="block mb-1">Setting / Class:</label>
-                        <input type="text" id="compSetting" placeholder="e.g. Acorn Nursery" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
+                        <input type="text" id="childSetting" placeholder="e.g. Year 3 Class" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800">
                     </div>
-                </div>
-
-                <div class="border border-slate-300 rounded p-4 space-y-3">
-                    <h3 class="font-bold text-[#112233] uppercase text-xs tracking-wide">Captured Subscale Totals</h3>
-                    <table class="w-full text-left border-collapse text-xs">
-                        <thead>
-                            <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
-                                <th class="p-2">SDQ Subscale</th>
-                                <th class="p-2">Baseline Score</th>
-                                <th class="p-2">1-Month Follow-Up Score</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-200">
-                            <tr>
-                                <td class="p-2 font-medium">Emotional Symptoms</td>
-                                <td class="p-2"><input type="number" id="baseEm" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                                <td class="p-2"><input type="number" id="folEm" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 font-medium">Conduct Problems</td>
-                                <td class="p-2"><input type="number" id="baseCo" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                                <td class="p-2"><input type="number" id="folCo" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 font-medium">Hyperactivity / Inattention</td>
-                                <td class="p-2"><input type="number" id="baseHy" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                                <td class="p-2"><input type="number" id="folHy" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 font-medium">Peer Problems</td>
-                                <td class="p-2"><input type="number" id="basePe" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                                <td class="p-2"><input type="number" id="folPe" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 font-medium">Prosocial Strength (Higher is better)</td>
-                                <td class="p-2"><input type="number" id="basePr" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                                <td class="p-2"><input type="number" id="folPr" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                            </tr>
-                            <tr class="font-bold bg-slate-50">
-                                <td class="p-2">Total Difficulties Score (Sum of 4 problem scales)</td>
-                                <td class="p-2"><input type="number" id="baseTot" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                                <td class="p-2"><input type="number" id="folTot" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="text-center pt-4 pb-4" id="comparisonButtonWrapper">
-                    <button onclick="generateComparisonReport()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
-                        Generate Progress Comparison Report PDF
-                    </button>
                 </div>
             </div>
 
+            <div id="instructionText" class="text-xs italic text-slate-600 bg-slate-50 p-3 border border-slate-200 rounded">
+                Please answer on the basis of the child's behaviour over <strong>the last six months</strong>.
+            </div>
+
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold text-[#112233] uppercase bg-[#112233] text-white p-2 rounded">Strengths & Difficulties Questionnaire (Ages 5–17)</h3>
+                <div id="sdqQuestions" class="space-y-2"></div>
+            </div>
+
+            <div class="text-center pt-4 space-y-2">
+                <p class="text-xs text-amber-700 font-semibold italic">⚠️ Important: You must click this button to save and analyze scores before viewing the final progress comparison report.</p>
+                <button onclick="processAndSaveAssessment()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
+                    Analyze Scores & Generate Report
+                </button>
+            </div>
+        </div>
+
+        <div id="comparisonSection" class="hidden space-y-6">
+            <div id="missingDataAlert" class="hidden bg-amber-50 border-l-4 border-amber-500 p-4 rounded space-y-2">
+                <h2 class="text-sm font-bold text-amber-800 uppercase">⚠️ Action Required: Missing Analyzed Data</h2>
+                <p class="text-xs text-amber-700">You have not clicked <strong>"Analyze Scores"</strong> for one or more questionnaires yet. Please use the tabs above to go back, complete your forms, and click Analyze. Your entered answers are safely saved!</p>
+            </div>
+
+            <div class="bg-[#eaf1f6] border-l-4 border-[#112233] p-4 rounded space-y-2">
+                <h2 class="text-sm font-bold text-[#112233] uppercase">Progress Comparison Tool (Baseline vs. 1-Month Follow-Up)</h2>
+                <p class="text-xs text-slate-600">Successfully captured session scores are loaded below automatically.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-semibold text-slate-700 bg-slate-50 p-4 rounded border border-slate-200">
+                <div>
+                    <label class="block mb-1">Child's Name / Alias:</label>
+                    <input type="text" id="compName" placeholder="e.g. Child 1" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
+                </div>
+                <div>
+                    <label class="block mb-1">Age / D.O.B:</label>
+                    <input type="text" id="compDob" placeholder="e.g. 7 yrs 2 mos" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
+                </div>
+                <div>
+                    <label class="block mb-1">Setting / Class:</label>
+                    <input type="text" id="compSetting" placeholder="e.g. Year 3 Class" class="w-full p-2 border border-slate-300 rounded bg-white text-slate-800" readonly>
+                </div>
+            </div>
+
+            <div class="border border-slate-300 rounded p-4 space-y-3">
+                <h3 class="font-bold text-[#112233] uppercase text-xs tracking-wide">Captured Subscale Totals</h3>
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                            <th class="p-2">SDQ Subscale</th>
+                            <th class="p-2">Baseline Score</th>
+                            <th class="p-2">1-Month Follow-Up Score</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-2 font-medium">Emotional Symptoms</td>
+                            <td class="p-2"><input type="number" id="baseEm" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                            <td class="p-2"><input type="number" id="folEm" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-medium">Conduct Problems</td>
+                            <td class="p-2"><input type="number" id="baseCo" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                            <td class="p-2"><input type="number" id="folCo" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-medium">Hyperactivity / Inattention</td>
+                            <td class="p-2"><input type="number" id="baseHy" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                            <td class="p-2"><input type="number" id="folHy" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-medium">Peer Problems</td>
+                            <td class="p-2"><input type="number" id="basePe" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                            <td class="p-2"><input type="number" id="folPe" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-medium">Prosocial Strength (Higher is better)</td>
+                            <td class="p-2"><input type="number" id="basePr" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                            <td class="p-2"><input type="number" id="folPr" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                        </tr>
+                        <tr class="font-bold bg-slate-50">
+                            <td class="p-2">Total Difficulties Score (Sum of 4 problem scales)</td>
+                            <td class="p-2"><input type="number" id="baseTot" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                            <td class="p-2"><input type="number" id="folTot" value="0" class="w-20 p-1 border rounded text-center bg-slate-100" readonly></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center pt-4 pb-4" id="comparisonButtonWrapper">
+                <button onclick="generateComparisonReport()" class="bg-[#112233] hover:bg-[#1a334d] text-white font-bold px-8 py-3 rounded shadow transition uppercase text-xs tracking-wider border-b-2 border-[#c59b27]">
+                    Generate Progress Comparison Report PDF
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- Printable Report Area -->
     <div id="printArea" class="hidden max-w-4xl mx-auto bg-white p-6 rounded shadow text-xs space-y-4">
         <div class="flex justify-between items-center border-b-2 border-[#112233] pb-3">
             <div>
@@ -211,7 +190,7 @@
                     <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
                         <th class="p-1.5">Subscale</th>
                         <th class="p-1.5">Score</th>
-                        <th class="p-1.5">Normative Banding (Ages 2-4)</th>
+                        <th class="p-1.5">Normative Banding (Ages 5-17)</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200">
@@ -258,16 +237,16 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="p-1.5 border border-slate-300">Unstructured play transitions and group circle times.</td>
-                        <td class="p-1.5 border border-slate-300">Pre-warning transition timers; assign specialized helper role.</td>
-                        <td class="p-1.5 border border-slate-300">Quiet calm-down corner prepared in advance.</td>
-                        <td class="p-1.5 border border-slate-300">Independent transition within 30 seconds.</td>
+                        <td class="p-1.5 border border-slate-300">Unstructured transitions and independent task periods.</td>
+                        <td class="p-1.5 border border-slate-300">Pre-warning transition timers; chunked multi-step tasks.</td>
+                        <td class="p-1.5 border border-slate-300">Quiet workspace zone set up in advance.</td>
+                        <td class="p-1.5 border border-slate-300">Independent task engagement within 1 minute.</td>
                     </tr>
                     <tr>
-                        <td class="p-1.5 border border-slate-300">Sharing high-demand resources or denied requests.</td>
-                        <td class="p-1.5 border border-slate-300">Visual 'First/Then' boards and structured turn-taking cues.</td>
-                        <td class="p-1.5 border border-slate-300">Duplicate popular items available to avoid bottlenecks.</td>
-                        <td class="p-1.5 border border-slate-300">Verbal acceptance of waiting turn without escalation.</td>
+                        <td class="p-1.5 border border-slate-300">Peer interactions and collaborative group work.</td>
+                        <td class="p-1.5 border border-slate-300">Structured roles and cooperative turn-taking prompts.</td>
+                        <td class="p-1.5 border border-slate-300">Clear peer-group boundary arrangements.</td>
+                        <td class="p-1.5 border border-slate-300">Positive communication exchange without conflict.</td>
                     </tr>
                 </tbody>
             </table>
@@ -288,7 +267,7 @@
                 </thead>
                 <tbody>
                     <tr><td class="p-1.5 border border-slate-300 text-left font-medium">Morning Session</td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td></tr>
-                    <tr><td class="p-1.5 border border-slate-300 text-left font-medium">Lunchtime / Transition</td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td></tr>
+                    <tr><td class="p-1.5 border border-slate-300 text-left font-medium">Midday / Transitions</td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td></tr>
                     <tr><td class="p-1.5 border border-slate-300 text-left font-medium">Afternoon Session</td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td><td class="p-1.5 border border-slate-300"></td></tr>
                 </tbody>
             </table>
@@ -623,7 +602,7 @@
             window.scrollTo(0, 0);
         }
 
-  function downloadPDF() {
+        function downloadPDF() {
             const element = document.getElementById('printArea');
             const opt = {
                 margin:       0.3,
@@ -632,12 +611,30 @@
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
-            
-            // Added a brief 500-millisecond pause to ensure browsers fully render content before saving
-            setTimeout(function() {
-                html2pdf().from(element).set(opt).save();
-            }, 500);
+            html2pdf().from(element).set(opt).save();
         }
+    </script>
+    <script>
+    const authorizedEmails = [
+        "m19e64l@hotmail.com"
+    ];
+
+    function checkAccess() {
+        const userEmail = document.getElementById("school-email").value.trim().toLowerCase();
+        
+        if (authorizedEmails.includes(userEmail)) {
+            document.getElementById("login-container").style.display = "none";
+            document.getElementById("appContainer").style.display = "block";
+            document.getElementById("nav-container").style.display = "flex";
+        } else {
+            alert("Email not recognized. Please ensure you use your purchasing school email or visit our Gumroad store to get a license.");
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("appContainer").style.display = "none";
+        document.getElementById("nav-container").style.display = "none";
+    });
     </script>
 </body>
 </html>
