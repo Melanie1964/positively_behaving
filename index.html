@@ -7,7 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
+    <style>
+    .locked-out #questionnaireSection { display: none !important; }
+        <div id="access-gate">
+    <h2 style="color: #0f172a; font-size: 20px; font-weight: bold; margin-bottom: 12px;">🔒 Access License Required</h2>
+    <p style="color: #475569; font-size: 14px; margin-bottom: 24px; line-height: 1.5;">This interactive Positively Behaving Hub requires an active license to view.</p>
+    <a href="https://positivelybehaving.gumroad.com" style="display: inline-block; background: #e11d48; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;">Get Access on Gumroad</a>
+</div>
+    #access-gate { display: none; text-align: center; max-width: 450px; margin: 80px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-family: sans-serif; }
+</style>
+
 <script>
 (function() {
     const SECRET_ACCESS_TOKEN = "PBH_SECURE_2026_ACCESS";
@@ -19,19 +28,16 @@
         localStorage.setItem('pbh_authorized', 'true');
         window.history.replaceState({}, document.title, window.location.pathname);
     } else if (!isUnlocked) {
-        // If they didn't come with the token and aren't already authorized, lock/redirect them
         document.addEventListener("DOMContentLoaded", function() {
-            document.body.innerHTML = `
-                <div style="text-align: center; padding: 80px 20px; font-family: sans-serif; background: #f8fafc; height: 100vh;">
-                    <div style="max-width: 400px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                        <h2 style="color: #0f172a; margin-bottom: 16px;">🔒 Access Required</h2>
-                        <p style="color: #475569; margin-bottom: 24px; font-size: 15px;">This interactive hub requires an authorized school license to view.</p>
-                        <a href="https://positivelybehaving.gumroad.com" 
-                           style="display: inline-block; padding: 12px 24px; background: #e11d48; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 15px;">
-                           Get Access on Gumroad
-                        </a>
-                    </div>
-                </div>
+            document.documentElement.classList.add('locked-out');
+            const gate = document.getElementById('access-gate');
+            if (gate) gate.style.display = 'block';
+        });
+    }
+})();
+</script>
+<body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
+
             `;
         });
     }
