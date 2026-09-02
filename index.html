@@ -26,18 +26,10 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
 
-    <!-- Optional Email Login / Access Gate Container -->
-    <div id="login-container" class="max-w-md mx-auto bg-white p-6 rounded shadow space-y-4 my-12 text-center">
-        <h2 class="text-sm font-bold text-[#112233] uppercase">School License Verification</h2>
-        <p class="text-xs text-slate-600">Please enter your purchasing school email address to access the toolkit:</p>
-        <input type="email" id="school-email" placeholder="e.g. teacher@school.com" class="w-full p-2 border border-slate-300 rounded text-xs">
-        <button onclick="checkAccess()" class="w-full bg-[#112233] text-white font-bold py-2 rounded text-xs uppercase tracking-wider">Verify Access</button>
-    </div>
-
     <div id="appContainer" class="max-w-4xl mx-auto bg-white p-6 rounded shadow space-y-6">
         
         <!-- Header & Navigation Tabs -->
-        <div id="nav-container" class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 gap-4">
             <div>
                 <h1 id="headerTitle" class="text-lg font-bold text-[#112233] uppercase">Baseline Assessment</h1>
                 <p class="text-xs text-slate-600">Positively Behaving Framework • School-Age Edition (5-17)</p>
@@ -613,28 +605,6 @@
             };
             html2pdf().from(element).set(opt).save();
         }
-    </script>
-    <script>
-    const authorizedEmails = [
-        "m19e64l@hotmail.com"
-    ];
-
-    function checkAccess() {
-        const userEmail = document.getElementById("school-email").value.trim().toLowerCase();
-        
-        if (authorizedEmails.includes(userEmail)) {
-            document.getElementById("login-container").style.display = "none";
-            document.getElementById("appContainer").style.display = "block";
-            document.getElementById("nav-container").style.display = "flex";
-        } else {
-            alert("Email not recognized. Please ensure you use your purchasing school email or visit our Gumroad store to get a license.");
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("appContainer").style.display = "none";
-        document.getElementById("nav-container").style.display = "none";
-    });
     </script>
 </body>
 </html>
