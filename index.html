@@ -8,14 +8,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
-<!-- Login Gate -->
-<div id="login-container" style="text-align: center; padding: 60px 20px; font-family: sans-serif; max-width: 500px; margin: 40px auto; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-    <h2>Positively Behaving Hub</h2>
-    <p>Please enter your registered school email address to unlock your tools:</p>
-    <input type="email" id="school-email" placeholder="name@school.sch.uk" style="padding: 12px; width: 100%; max-width: 300px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-    <br>
-    <button onclick="checkAccess()" style="padding: 12px 24px; font-size: 16px; background: #112233; color: #fff; border: none; cursor: pointer; border-radius: 4px;">Unlock Hub</button>
-</div>
+<script>
+(function() {
+    const SECRET_ACCESS_TOKEN = "PBH_SECURE_2026_ACCESS";
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenInUrl = urlParams.get('access_token');
+    const isUnlocked = localStorage.getItem('pbh_authorized') === 'true';
+
+    if (tokenInUrl === SECRET_ACCESS_TOKEN) {
+        localStorage.setItem('pbh_authorized', 'true');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (!isUnlocked) {
+        // If they didn't come with the token and aren't already authorized, lock/redirect them
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.innerHTML = `
+                <div style="text-align: center; padding: 80px 20px; font-family: sans-serif; background: #f8fafc; height: 100vh;">
+                    <div style="max-width: 400px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <h2 style="color: #0f172a; margin-bottom: 16px;">🔒 Access Required</h2>
+                        <p style="color: #475569; margin-bottom: 24px; font-size: 15px;">This interactive hub requires an authorized school license to view.</p>
+                        <a href="https://positivelybehaving.gumroad.com" 
+                           style="display: inline-block; padding: 12px 24px; background: #e11d48; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 15px;">
+                           Get Access on Gumroad
+                        </a>
+                    </div>
+                </div>
+            `;
+        });
+    }
+})();
+</script>
   <!-- Navigation Wrapper (Hidden by default until email is verified) -->
         <div id="nav-container" style="display: none;" class="max-w-4xl mx-auto mb-4 flex flex-wrap justify-between items-center bg-white p-3 rounded shadow-sm gap-2">
             <div class="space-x-1 text-xs font-bold">
